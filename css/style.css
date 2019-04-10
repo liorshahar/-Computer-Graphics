@@ -9,7 +9,8 @@ body {
   margin-top: 100px;
 }
 
-#drawLineDiv {
+#drawLineDiv,
+#drawCircleDiv {
   width: 900px;
   height: 700px;
   margin-top: 20px;
