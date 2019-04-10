@@ -1,5 +1,7 @@
+/* My Line function */
+
 function myLine(points, drawLineCtx) {
-  let X0, Y0, X1, Y1, dx, dy, steps, Xinc, Yinc, abs, X, Y;
+  let X0, Y0, X1, Y1, dx, dy, steps, Xinc, Yinc, X, Y;
 
   points.forEach(element => {
     console.log(element);
@@ -24,51 +26,63 @@ function myLine(points, drawLineCtx) {
   X = X0;
   Y = Y0;
   for (let i = 0; i <= steps; i++) {
-    drawLineCtx.fillRect(X, Y, 1, 1);
+    drawLineCtx.strokeRect(X, Y, 1, 1);
     X += Xinc;
     Y += Yinc;
   }
 }
+//https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes
+/* My Circle function */
 
-function myCircle(radios, drawCircleCtx) {
+function myPlotCirclePoints(x_center, y_center, x, y, drawCircleCtx) {
+  drawCircleCtx.fillRect(x_center + x, y_center + y, 1, 1);
+  drawCircleCtx.fillRect(x_center - x, y_center + y, 1, 1);
+  drawCircleCtx.fillRect(x_center + x, y_center - y, 1, 1);
+  drawCircleCtx.fillRect(x_center - x, y_center - y, 1, 1);
+  drawCircleCtx.fillRect(x_center + y, y_center + x, 1, 1);
+  drawCircleCtx.fillRect(x_center - y, y_center + x, 1, 1);
+  drawCircleCtx.fillRect(x_center + y, y_center - x, 1, 1);
+  drawCircleCtx.fillRect(x_center - y, y_center - x, 1, 1);
+}
+
+function myCircle(points, drawCircleCtx) {
   // P0 = 3 - 2r
   // If (Pk < 0) => (Xk + 1, Yk) , Pk+1 = Pk + 4Xk + 6
   // If (Pk >= 0) => (Xk + 1, Yk - 1) , Pk+1 = Pk + 4(Xk - Yk) + 10
 
-  let P0, X0, Y0, x, y, Xnext, Ynext, Pnext;
-  //drawCircleCtx.fillRect(70, 70, 1, 1);
-  let temp = 70;
-  console.log(radios);
-  X0 = x = temp + 0;
-  Y0 = y = temp + radios;
-  console.log(`X0 : ${X0} , Y0 : ${Y0} , x : ${x} , y : ${y}`);
-  drawCircleCtx.fillRect(70, 70, 1, 1);
+  let P0, X0, Y0, Xnext, Ynext, Pnext, xCenter, yCenter, radius;
+
+  X0 = points[0].x;
+  Y0 = points[0].y;
+
+  radius = parseInt(
+    Math.sqrt(
+      Math.pow(points[0].x - points[1].x, 2) +
+        Math.pow(points[0].y - points[1].y, 2)
+    )
+  );
+  console.log(radius);
+
+  drawCircleCtx.fillRect(X0, Y0, 1, 1);
 
   // find initial decision parameter
-  P0 = 3 - 2 * radios;
-  drawCircleCtx.fillRect(Xnext, Ynext, 1, 1);
+  P0 = 3 - 2 * radius;
   console.log(`find initial decision parameter = ${P0}`);
+
   Pnext = P0;
-  Xnext = X0;
-  Ynext = Y0;
+  Xnext = 0;
+  Ynext = radius;
 
   while (Xnext < Ynext) {
-    console.log(`Pnext = ${Pnext}`);
+    console.log(`Xnext = ${Xnext}  : Ynext = ${Ynext}`);
+    myPlotCirclePoints(X0, Y0, Xnext, Ynext, drawCircleCtx);
     if (Pnext < 0) {
-      console.log(`Xnext = ${Xnext + 1}  : Ynext = ${Ynext}`);
-      drawCircleCtx.fillRect(Xnext + 1, Ynext, 1, 1);
-      Pnext = P0 + 4 * (Xnext - temp) + 6;
-      P0 = Pnext;
-      Xnext = Xnext + 1;
-      //console.log(`x = x + 1: ${x}`);
+      Pnext = Pnext + 4 * Xnext + 6;
     } else {
-      console.log(`Xnext = ${Xnext + 1}  : Ynext = ${Ynext - 1}`);
-      drawCircleCtx.fillRect(Xnext + 1, Ynext - 1, 1, 1);
-      Pnext = P0 + 4 * (Xnext - temp - (Ynext - temp)) + 10;
-      P0 = Pnext;
-      Xnext = Xnext + 1;
+      Pnext = Pnext + 4 * (Xnext - Ynext) + 10;
       Ynext = Ynext - 1;
     }
+    Xnext = Xnext + 1;
   }
 }
 
@@ -112,7 +126,7 @@ window.onload = () => {
   drawLineDiv.onclick = event => {
     lineCoord = relMouseCoords(drawLinectxCanvas, event);
     lineCoordArray.push(lineCoord);
-    drawLineCtx.fillRect(lineCoord.x, lineCoord.y, 1, 1);
+    drawLineCtx.clearRect(lineCoord.x, lineCoord.y, 1, 1);
 
     if (lineCoordArray.length === 2) {
       myLine(lineCoordArray, drawLineCtx);
@@ -124,8 +138,17 @@ window.onload = () => {
   let drawCircleDiv = document.getElementById("drawCircleDiv");
   let drawCircleCtx = drawCircleDiv.getContext("2d");
   let drawCirclectxCanvas = drawCircleCtx.canvas;
+  let circleCoordArray = [];
+  let circleCoord;
 
   drawCircleDiv.onclick = event => {
-    myCircle(10, drawCircleCtx);
+    circleCoord = relMouseCoords(drawCirclectxCanvas, event);
+    drawCircleCtx.fillRect(circleCoord.x, circleCoord.y, 1, 1);
+    circleCoordArray.push(circleCoord);
+
+    if (circleCoordArray.length === 2) {
+      myCircle(circleCoordArray, drawCircleCtx);
+      circleCoordArray = [];
+    }
   };
 };
