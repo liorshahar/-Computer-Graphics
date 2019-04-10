@@ -1,0 +1,17 @@
+body {
+  font-family: Verdana, Tahoma, sans-serif;
+}
+
+#container {
+  width: 1000px;
+
+  margin: 0 auto;
+  margin-top: 100px;
+}
+
+#drawLineDiv {
+  width: 900px;
+  height: 700px;
+  margin-top: 20px;
+  border: 1px solid black;
+}
