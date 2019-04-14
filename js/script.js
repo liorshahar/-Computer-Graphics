@@ -181,6 +181,16 @@ function myBezier() {
     console.log("x:" + x + "\n" + "y:" + y);
     console.log("---------------");
   }
+  context.lineTo(coordArray[3].x, coordArray[3].y);
+  myCircle(
+    [
+      { x: coordArray[3].x, y: coordArray[3].y },
+      { x: coordArray[3].x + 2, y: coordArray[3].y + 2 }
+    ],
+    context
+  );
+  console.log("x:" + coordArray[3].x + "\n" + "y:" + coordArray[3].x);
+  console.log("---------------");
   context.lineWidth = 1;
   context.stroke();
 }
