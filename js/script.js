@@ -147,12 +147,12 @@ function curvesMatrix() {
 }
 
 function myBezier() {
-  console.log(arguments[0]);
   let coordArray,
     context = arguments[1],
     matrix = {},
-    t = 10;
+    t = document.getElementById("linesNumber").value || 10;
 
+  console.log("value:" + document.getElementById("linesNumber").value);
   if (arguments[0]) {
     coordArray = arguments[0];
   } else {
