@@ -1,3 +1,5 @@
+/* Created by Lior Shahar and Hanan Avraham */
+
 /* My Line function 
    -> Implement DDA Algorithm
 */
