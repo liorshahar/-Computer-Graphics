@@ -284,12 +284,14 @@ window.onload = () => {
   };
 
   // Draw Bezier Curves variables
+  let isDraw = false;
   let drawBezierDiv = document.getElementById("drawBezierCurveDiv");
   let drawBezierCtx = drawBezierDiv.getContext("2d");
   let clearBezierBtn = document.getElementById("clearBezierCurve");
   clearBezierBtn.addEventListener("click", () => {
     if (drawBezierCtx) {
       clearCanvas(drawBezierCtx);
+      isDraw = false;
       bezierCoordArray = [];
     } else {
       console.log("Can't find Bezier ctx");
@@ -300,6 +302,7 @@ window.onload = () => {
   drawBezierBtn.addEventListener("click", () => {
     if (bezierCoordArray.length === 4) {
       myBezier(bezierCoordArray, drawBezierCtx);
+      isDraw = true;
     } else {
       alert("Missing: " + (4 - bezierCoordArray.length) + " points");
     }
@@ -317,8 +320,10 @@ window.onload = () => {
         drawBezierCtx
       );
       bezierCoordArray.push(bezierCoord);
-    } else {
+    } else if (!isDraw) {
       alert("Click Draw");
+    } else {
+      alert("Click Reset Points or Change Number of control lines");
     }
   };
 };
