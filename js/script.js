@@ -175,7 +175,7 @@ function myBezier() {
       matrix[7];
 
     context.lineTo(x, y);
-    myCircle([{ x: x, y: y }, { x: x + 3, y: y + 3 }], context);
+    myCircle([{ x: x, y: y }, { x: x + 2, y: y + 2 }], context);
     console.log("x:" + x + "\n" + "y:" + y);
     console.log("---------------");
   }
@@ -241,7 +241,10 @@ window.onload = () => {
   drawLineDiv.onclick = event => {
     lineCoord = relMouseCoords(drawLinectxCanvas, event);
     lineCoordArray.push(lineCoord);
-    drawLineCtx.fillRect(lineCoord.x, lineCoord.y, 1, 1);
+    myCircle(
+      [lineCoord, { x: lineCoord.x + 3, y: lineCoord.y + 3 }],
+      drawLineCtx
+    );
 
     if (lineCoordArray.length === 2) {
       myLine(lineCoordArray, drawLineCtx);
@@ -266,7 +269,10 @@ window.onload = () => {
 
   drawCircleDiv.onclick = event => {
     circleCoord = relMouseCoords(drawCirclectxCanvas, event);
-    drawCircleCtx.fillRect(circleCoord.x, circleCoord.y, 1, 1);
+    myCircle(
+      [circleCoord, { x: circleCoord.x + 2, y: circleCoord.y + 2 }],
+      drawCircleCtx
+    );
     circleCoordArray.push(circleCoord);
 
     if (circleCoordArray.length === 2) {
@@ -292,7 +298,6 @@ window.onload = () => {
 
   drawBezierDiv.onclick = event => {
     bezierCoord = relMouseCoords(drawBezierctxCanvas, event);
-    //drawBezierCtx.fillRect(bezierCoord.x, bezierCoord.y, 1, 1);
     myCircle(
       [bezierCoord, { x: bezierCoord.x + 3, y: bezierCoord.y + 3 }],
       drawBezierCtx
