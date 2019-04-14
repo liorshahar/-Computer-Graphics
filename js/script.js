@@ -290,25 +290,37 @@ window.onload = () => {
   clearBezierBtn.addEventListener("click", () => {
     if (drawBezierCtx) {
       clearCanvas(drawBezierCtx);
+      bezierCoordArray = [];
     } else {
       console.log("Can't find Bezier ctx");
     }
   });
+
+  let drawBezierBtn = document.getElementById("drawCurve");
+  drawBezierBtn.addEventListener("click", () => {
+    if (bezierCoordArray.length === 4) {
+      myBezier(bezierCoordArray, drawBezierCtx);
+    } else {
+      alert("Missing: " + (4 - bezierCoordArray.length) + " points");
+    }
+  });
+
   let drawBezierctxCanvas = drawBezierCtx.canvas;
   let bezierCoordArray = [];
   let bezierCoord;
 
   drawBezierDiv.onclick = event => {
-    bezierCoord = relMouseCoords(drawBezierctxCanvas, event);
-    myCircle(
-      [bezierCoord, { x: bezierCoord.x + 3, y: bezierCoord.y + 3 }],
-      drawBezierCtx
-    );
-    bezierCoordArray.push(bezierCoord);
-
-    if (bezierCoordArray.length === 4) {
-      myBezier(bezierCoordArray, drawBezierCtx);
-      bezierCoordArray = [];
+    if (bezierCoordArray.length < 4) {
+      bezierCoord = relMouseCoords(drawBezierctxCanvas, event);
+      myCircle(
+        [bezierCoord, { x: bezierCoord.x + 3, y: bezierCoord.y + 3 }],
+        drawBezierCtx
+      );
+      bezierCoordArray.push(bezierCoord);
+    } else {
+      alert("Click Draw");
     }
   };
 };
+
+/*  myBezier(bezierCoordArray, drawBezierCtx); */

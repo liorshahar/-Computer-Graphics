@@ -23,8 +23,9 @@
       </div>
       <div id="bezierCurveDivContainer">
         <h2>Bezier Curve</h2>
-        <h3>Click four points inside the rectangle <span><button id="clearBezierCurve">clear</button></span></h3>
-        <h3>number of control lines <span><input type="number" id="linesNumber"></input></span></h3>
+        <h3>Click on four points inside the rectangle And then click Draw </h3>
+        <h3>Number of control lines  <span><input type="number" id="linesNumber" min="0"></input></span> (default is 10)</h3>
+        <h3>Draw Curve <span><button id="drawCurve">Draw</button></span> <span><button id="clearBezierCurve">Reset Points</button></span></h3>
         <canvas id="drawBezierCurveDiv" width="800" height="500"></canvas>
       </div>
     </div>
